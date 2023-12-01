@@ -1,7 +1,7 @@
 <?php 
 include '../connection.php';
 
-$id = 1;
+$id = $_POST['id'];
 
 
 $sql = "SELECT * FROM `user` WHERE `id`='$id'";

@@ -1,7 +1,7 @@
 <?php 
 include '../connection.php';
 
-$id = 1;
+$id = $_POST['id'];
 
 
 $sql = "SELECT  `username`,`email`,`picture`,`country`,`genre`,`type`,`date_birth`,`points` FROM `user` WHERE `id`='$id'";
