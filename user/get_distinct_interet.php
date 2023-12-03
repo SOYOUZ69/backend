@@ -1,7 +1,7 @@
 <?php
 include '../connection.php';
 
-$sql = "SELECT interet FROM user WHERE id = 0";
+$sql = "SELECT interet FROM user WHERE id = 1";
 $result = $conn->query($sql);
 
 // Vérifier s'il y a des résultats
