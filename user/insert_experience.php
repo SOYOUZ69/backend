@@ -5,7 +5,7 @@ include '../connection.php';
 
 // Récupération de l'ID de l'utilisateur
 if ( $_POST["id"]) {
-    
+    $user_id=$_POST["id"]; 
 // Informations de l'' expérience
 $nom_etablissement = $_POST["nom_etablissement"];
 $date_debut = $_POST["date_debut"];
