@@ -16,34 +16,25 @@ if ($result->num_rows > 0) {
     $experience = $row["listparcour"];
     $experienceEncoded = json_decode($experience, true);
     
-    $interet = $row["interet"];
-    
-    
-    $bac = $row["bac"];
-    
-    $competence = $row["competence"];
-    $competenceEncoded = json_decode($competence, true);
+    // Create an array for liste_parcour
+    $formattedListeParcour = array();
+    foreach ($experienceEncoded as $key => $value) {
+        // Check if the value is an array (nested experience) or not
+        if (is_array($value)) {
+            $formattedListeParcour[] = $value;
+        }
+    }
     
     $response["phone"] = $phoneEncoded;
-    $response["liste_parcoure"] = $experienceEncoded;
+    $response["liste_parcoure"] = $formattedListeParcour;
     $response["interet"] = $row["interet"];
-    $response["competence"] = $competenceEncoded;
-    $response["bac"] = $bac;
+    $response["competence"] = json_decode($row["competence"], true);
+    $response["bac"] = $row["bac"];
 
-    if ($row["cv"]) {
-        $cv = $row["cv"];
-        $response["cv"] = $cv;
-    } else {
-        $response["cv"] = false;
-    }
-
-    if ($row["picture"]) {
-        $picture = $row["picture"];
-        $response["photo"] = $picture;
-    } else {
-        $response["photo"] = false;
-    }
-} else { $response["get"] = false;
+    $response["cv"] = $row["cv"] ? $row["cv"] : false;
+    $response["photo"] = $row["picture"] ? $row["picture"] : false;
+} else {
+    $response["get"] = false;
 }
 
 echo json_encode($response);
