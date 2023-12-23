@@ -1,20 +1,27 @@
 <?php
 include '../connection.php';
-if (isset($_POST['id'])){
-$id=$_POST['id'];
-$sql = "SELECT * FROM `formation` where id = $id";
-$result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
+// Access raw request body
+$rawBody = file_get_contents('php://input');
 
-    // No need for json_decode() here
+// Decode JSON data (assuming the ID is sent as JSON)
+$data = json_decode($rawBody, true);
 
-    echo json_encode(array("formations" => $row));
+if (isset($data['id'])) {
+    $Id = (int) $data['id'];  // Ensure lastId is an integer
+
+    $sql = "SELECT * FROM `formation` WHERE id = $Id LIMIT 10";
+
+    $result = $conn->query($sql);
+    $formations = $result->fetch_assoc();
+ 
+
+   
+
+    echo json_encode(array("formations" => $formations));
 } else {
     echo json_encode(array("formations" => false));
 }
-}else {
-    echo json_encode(array("formations" => false));
-}
+
+
 ?>
