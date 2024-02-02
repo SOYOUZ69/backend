@@ -1,6 +1,6 @@
 <?php
 include '../connection.php';
-if($_POST["username"]){
+if($_POST["nom"]){
 $nom = $_POST["nom"];
 $description = $_POST["description"];
 
