@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 07 fév. 2024 à 02:52
+-- Généré le : sam. 10 fév. 2024 à 21:23
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -31,13 +31,27 @@ CREATE TABLE `blog_post` (
   `id` int(11) NOT NULL,
   `bief_desc` text NOT NULL,
   `full_desc` text NOT NULL,
-  `views` int(11) NOT NULL,
   `metakey` text NOT NULL,
-  `upvotes` int(11) NOT NULL,
-  `downvotes` int(11) NOT NULL,
   `id_poster` int(11) NOT NULL,
   `state` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `blog_post`
+--
+
+INSERT INTO `blog_post` (`id`, `bief_desc`, `full_desc`, `metakey`, `id_poster`, `state`) VALUES
+(1, 'blog1', 'blog 1 complet', 'test metakey,test metakey1', 1, 1),
+(2, 'blog2', 'blog 2 complet', 'test metakey2,test metakey3', 1, 1),
+(3, 'blog3', 'blog 3 complet', 'test metakey4,test metakey5', 1, 1),
+(4, 'blog4', 'blog 4 complet', 'test metakey6,test metakey7', 1, 1),
+(5, 'blog5', 'blog 5 complet', 'test metakey8,test metakey9', 1, 1),
+(6, 'blog6', 'blog 6 complet', 'test metakey10,test metakey11', 1, 1),
+(7, 'blog7', 'blog 7 complet', 'test metakey12,test metakey13', 1, 1),
+(8, 'blog8', 'blog 8 complet', 'test metakey14,test metakey15', 1, 1),
+(9, 'blog9', 'blog 9 complet', 'test metakey16,test metakey17', 1, 1),
+(10, 'blog10', 'blog 10 complet', 'test metakey18,test metakey19', 1, 1),
+(11, 'blog11', 'blog 11 complet', 'test metakey20,test metakey21', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -173,6 +187,52 @@ CREATE TABLE `notification` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `parcour`
+--
+
+CREATE TABLE `parcour` (
+  `id` int(11) NOT NULL,
+  `id_u` int(11) NOT NULL,
+  `nom_etablissement` varchar(255) NOT NULL,
+  `date_debut` date NOT NULL,
+  `date_fin` date NOT NULL,
+  `diplome` varchar(255) NOT NULL,
+  `domaine` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `parcour`
+--
+
+INSERT INTO `parcour` (`id`, `id_u`, `nom_etablissement`, `date_debut`, `date_fin`, `diplome`, `domaine`) VALUES
+(1, 1, 'test_parcour1', '2024-02-12', '2024-02-24', 'test1', 'domaine1'),
+(2, 1, 'test_parcour2', '2024-03-01', '2024-03-15', 'test2', 'domaine2'),
+(3, 1, 'test_parcour3', '2024-03-20', '2024-04-05', 'test3', 'domaine3'),
+(4, 1, 'test_parcour4', '2024-04-10', '2024-04-25', 'test4', 'domaine4'),
+(5, 1, 'test_parcour5', '2024-05-01', '2024-05-15', 'test5', 'domaine5'),
+(6, 1, 'test_parcour6', '2024-05-20', '2024-06-05', 'test6', 'domaine6'),
+(7, 1, 'test_parcour7', '2024-06-10', '2024-06-25', 'test7', 'domaine7'),
+(8, 1, 'test_parcour8', '2024-07-01', '2024-07-15', 'test8', 'domaine8'),
+(9, 1, 'test_parcour9', '2024-07-20', '2024-08-05', 'test9', 'domaine9'),
+(10, 1, 'test_parcour10', '2024-08-10', '2024-08-25', 'test10', 'domaine10'),
+(11, 1, 'test_parcour11', '2024-09-01', '2024-09-15', 'test11', 'domaine11');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `upvotes`
+--
+
+CREATE TABLE `upvotes` (
+  `id` int(11) NOT NULL,
+  `id_u` int(11) NOT NULL,
+  `id_o` int(11) NOT NULL,
+  `type` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `user`
 --
 
@@ -274,6 +334,18 @@ ALTER TABLE `notification`
   ADD KEY `id_u` (`id_u`);
 
 --
+-- Index pour la table `parcour`
+--
+ALTER TABLE `parcour`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `upvotes`
+--
+ALTER TABLE `upvotes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `user`
 --
 ALTER TABLE `user`
@@ -287,7 +359,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `blog_post`
 --
 ALTER TABLE `blog_post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `comment`
@@ -323,6 +395,18 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `parcour`
+--
+ALTER TABLE `parcour`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT pour la table `upvotes`
+--
+ALTER TABLE `upvotes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
