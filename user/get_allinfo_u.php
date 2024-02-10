@@ -1,12 +1,19 @@
-<?php 
+<?php
 include '../connection.php';
 
-$id = $_POST['id'];
+// Access raw request body
+$rawBody = file_get_contents('php://input');
+
+// Decode JSON data (assuming the ID is sent as JSON)
+$data = json_decode($rawBody, true);
+$response = array();
+if (isset($data['id'])) {
+$id = $data['id'];
 
 $sql = "SELECT * FROM user WHERE `id`=".$id;
 $result = $conn->query($sql);
 
-$response = array();
+
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -53,7 +60,7 @@ $parcour = [];
     $response["photo"] = false;
     }
 } else { $response["get"] = false;
-}
+}}else{ $response["get"] = false;}
 
 echo json_encode($response);
 ?>
