@@ -3,7 +3,7 @@ include '../connection.php';
 
 $id = $_POST['id'];
 
-$sql = "SELECT * FROM user WHERE `id`='$id'";
+$sql = "SELECT * FROM user WHERE `id`=".$id;
 $result = $conn->query($sql);
 
 $response = array();
@@ -13,8 +13,7 @@ if ($result->num_rows > 0) {
     $phone = $row["phone"];
     $phoneEncoded = json_decode($phone, true);
     
-    $experience = $row["listparcour"];
-    $experienceEncoded = json_decode($experience, true);
+    
     
     $interet = $row["interet"];
     
@@ -25,7 +24,17 @@ if ($result->num_rows > 0) {
     $competenceEncoded = json_decode($competence, true);
     
     $response["phone"] = $phoneEncoded;
-    $response["liste_parcoure"] = $experienceEncoded;
+    $sql2 = "SELECT * FROM `parcour` WHERE `id_u`=".$id;
+
+$result1 = $conn->query($sql2);
+
+$parcour = [];
+
+    while ($row1 = $result1->fetch_assoc()) {
+        $parcour[] = $row1;
+       
+    }
+    $response["liste_parcoure"] = $parcour;
     $response["interet"] = $row["interet"];
     $response["competence"] = $competence;
     $response["bac"] = $bac;
