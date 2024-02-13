@@ -28,8 +28,29 @@ if (!in_array($attribute, $validAttributes)) {
 }
 
 if ($attribute == 'picture' || $attribute == 'cv') {
+    $logo = "";
+    if (!empty($_FILES['cover']['name'])) {
+        $errors = array();
+        $file_name = mysqli_real_escape_string($conn, $_FILES['cover']['name']);
+        $file_size = $_FILES['cover']['size'];
+        $file_tmp = $_FILES['cover']['tmp_name'];
+        $file_type = $_FILES['cover']['type'];
+        $exp = explode('.', $_FILES['cover']['name']);
+        $end_expl = end($exp);
+        $file_ext = strtolower($end_expl);
 
-    $sql = "UPDATE `user` SET `$attribute`=? WHERE `id`=?";
+        $expensions = array("jpeg", "jpg", "png");
+
+        if (in_array($file_ext, $expensions) === false) {
+            $errors[] = "extension not allowed, please choose a JPEG or PNG file.";
+        }
+
+        $logo = time() . '_' . $file_name;
+
+        if (empty($errors)) {
+            move_uploaded_file($file_tmp, "../uploads/user/" . $logo);
+
+            $sql = "UPDATE `user` SET `$attribute`=? WHERE `id`=?";
     $stmt = $conn->prepare($sql);
 
     if ($stmt) {
@@ -41,14 +62,43 @@ if ($attribute == 'picture' || $attribute == 'cv') {
             $msg = true;
         }
     }
+        } else {
+            print_r($errors);
+        }
+    }
+
+    
 } elseif ($attribute == 'parcour') {
     $op = $data['operation'];
 
     if ($op == "add") {
-        foreach ($data['value'] as $parcours) {
+        $value = $data['value'];
 
-            $msg = true; 
-        }
+// Décode la liste JSON
+$listeParcours = json_decode($value, true);
+foreach ($listeParcours['liste_parcoure'] as $parcours) {
+    // Stocke chaque donnée dans une variable
+    $nomEtablissement = $parcours['nom_etablissement'];
+    $dateDebut = $parcours['date_debut'];
+    $dateFin = $parcours['date_fin'];
+    $diplome = $parcours['diplome'];
+    $domaine = $parcours['domaine'];
+    $sql = "INSERT INTO `parcour` (`id_u`, `nom_etablissement`, `date_debut`, `date_fin`, `diplome`, `domaine`) VALUES (?, ?, ?, ?, ?, ?)";
+
+    // Préparation de la requête
+    $stmt = $conn->prepare($sql);
+    
+    // Liaison des paramètres
+    $stmt->bind_param("isssss", $userId, $nomEtablissement, $dateDebut, $dateFin, $diplome, $domaine);
+    if ($stmt->execute()) {
+        $msg=true;
+        
+    }
+}
+        
+
+
+
     } elseif ($op == "delete") {
         $parcoursId = $data['value'];
 
