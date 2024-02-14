@@ -10,7 +10,7 @@ $data = json_decode($rawBody, true);
 if (isset($data['ev'])) {
     // Ensure lastId is an integer
 $date_n=date("Y-m-d H:i:s");
-$sql = "SELECT * FROM `formation` WHERE `date` >= '" . $date_n . "'";
+$sql = "SELECT * FROM `formation` WHERE `date` >= '$date_n' ORDER BY `date` ASC";
 
 $result = $conn->query($sql);
 
