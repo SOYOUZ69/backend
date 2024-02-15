@@ -9,26 +9,38 @@ $data = json_decode($rawBody, true);
 
 if (isset($data['bp'])) {
     // Ensure lastId is an integer
-    $sql = "SELECT blog_post.*, COUNT(upvotes.id) AS upvote_count
-    FROM blog_post
-    LEFT JOIN upvotes ON blog_post.id = upvotes.id_object AND upvotes.type = 'blog'
-    WHERE blog_post.state = 1
-    GROUP BY blog_post.id
-    ORDER BY upvote_count DESC";
+    $lastId = isset($data['last_id']) ? (int)$data['last_id'] : 0;
 
-$result = $conn->query($sql);
+    // Adjust the SQL query to filter by ID greater than the last ID
+    $sql = "SELECT blog_post.*, 
+                    COUNT(upvotes.id) AS upvote_count, 
+                    COUNT(comment.id) AS comment_count, 
+                    user.username, 
+                    user.picture
+            FROM blog_post
+            LEFT JOIN upvotes ON blog_post.id = upvotes.id_o AND upvotes.type = 'blog'
+            LEFT JOIN user ON blog_post.id_poster = user.id
+            LEFT JOIN comment ON blog_post.id = comment.id_object AND comment.object_type = 'blog'
+            WHERE blog_post.state = 1 AND blog_post.id > $lastId
+            GROUP BY blog_post.id
+            ORDER BY upvote_count DESC
+            LIMIT 10";  // Limit the result to 10 rows
 
-if ($result) {
+    $result = $conn->query($sql);
 
-$blogs = [];
+    if ($result) {
+        $blogs = [];
 
-    while ($row = $result->fetch_assoc()) {
-        $blogs[] = $row;
-       
+        while ($row = $result->fetch_assoc()) {
+            $blogs[] = $row;
+            $lastId = $row['id'];  // Update the last ID
+        }
+
+        echo json_encode(array("blogs" => $blogs, "last_id" => $lastId));
+    } else {
+        echo json_encode(array("blogs" => false));
     }
-
-    echo json_encode(array("blogs" => $blogs));
 } else {
-    echo json_encode(array("blogs" => false));
+    echo json_encode(array("blogs" => false, "erreur" => "demande incorrecte"));
 }
-}else{ echo json_encode(array("blogs" => false,"erreur" => "demande incorrecte"));}
+?>
