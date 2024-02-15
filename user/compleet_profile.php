@@ -1,4 +1,4 @@
-<?php
+
 <?php
 include '../connection.php';
 
@@ -124,4 +124,3 @@ echo json_encode(['msg' => $msg]);
 
 
 
-?>
