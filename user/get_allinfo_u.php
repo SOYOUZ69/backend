@@ -60,14 +60,15 @@ $parcour = [];
     $response["photo"] = false;
     }
     $sql11 = "SELECT interet FROM user WHERE `id`=1";
-    $result11 = $conn->query($sql11);
-    
-    
-    
-    if ($result11->num_rows > 0) {
-        $row11 = $result->fetch_assoc();
-        $response["interet_all"] = $row11["interet"];
-     }
+$result11 = $conn->query($sql11);
+
+if ($result11->num_rows > 0) {
+    $row11 = $result11->fetch_assoc();
+    $interet_all= [];
+    $interet_all=$row11["interet"];
+
+    $response["interet_all"] =$interet_all;
+}
 } else { $response["get"] = false;
 }}else{ $response["get"] = false;}
 
