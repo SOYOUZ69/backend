@@ -1,10 +1,13 @@
 <?php
 include '../connection.php';
+$rawBody = file_get_contents('php://input');
 
-if (isset($_POST["id_poster"], $_POST["full_desc"], $_POST["metakey"])) {
-    $id_poster = $_POST["id_poster"];
-    $full_desc = $_POST["full_desc"];
-    $metakey = $_POST["metakey"];
+// Decode JSON data (assuming the ID is sent as JSON)
+$data = json_decode($rawBody, true);
+if (isset($data["id_poster"], $data["full_desc"], $data["metakey"])) {
+    $id_poster = $data["id_poster"];
+    $full_desc = $data["full_desc"];
+    $metakey = $data["metakey"];
 
     $sql = "INSERT INTO `blog_post`(`full_desc`, `metakey`, `id_poster`, `state`) VALUES (?, ?, ?, 1)";
 
