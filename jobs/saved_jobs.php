@@ -10,7 +10,7 @@ $data = json_decode($rawBody, true);
 if (isset($data['id'])) {
     $Id = (int) $data['id'];
 
-    $sql = "SELECT * FROM `jobs` WHERE `id` in (SELECT * FROM `favoris` WHERE `id_u`=$Id and `object_type` ='job')";
+    $sql = "SELECT * FROM `job_post` WHERE `id` in (SELECT id_object FROM `favoris` WHERE `id_u`=$Id and `object_type` ='job')";
 
     $result = $conn->query($sql);
 
