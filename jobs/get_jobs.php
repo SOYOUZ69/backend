@@ -10,7 +10,12 @@ $data = json_decode($rawBody, true);
 if (isset($data['last_id'])) {
     $lastId = (int) $data['last_id'];  // Ensure lastId is an integer
 
-    $sql = "SELECT * FROM `job_post` WHERE id > $lastId LIMIT 10";
+    $sql = "SELECT job_post.*, user.username,user.picture
+FROM job_post
+JOIN user ON job_post.id_poster = user.id
+WHERE job_post.id > $lastId
+LIMIT 10;
+";
 
     $result = $conn->query($sql);
 
@@ -21,7 +26,7 @@ if (isset($data['last_id'])) {
         $lastId = $row['id'];
     }
 
-    echo json_encode(array("jobs" => $formations, "last_id" => $lastId));
+    echo json_encode(array("jobs_b" => $formations,"jobs_m" => $formations, "last_id" => $lastId));
 } else {
     echo json_encode(array("jobs" => false));
 }
