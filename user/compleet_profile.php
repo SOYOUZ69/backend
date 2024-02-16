@@ -7,19 +7,23 @@ $data = json_decode($rawBody, true);
 
 $msg = false;
 
-if (!isset($data['attribute']) || !isset($data['value'])) {
-    echo json_encode(['error' => 'Attribute and value not provided']);
+if (!isset($data['attribute'])&&!isset($_POST['attribute'])) {
+    echo json_encode(['error' => 'Attribute not provided']);
     exit;
 }
 
-if (!isset($data['id'])) {
+if (!isset($data['id'])&&!isset($_POST['id'])) {
     echo json_encode(['error' => 'User ID not provided']);
     exit;
 }
+if (isset($data['attribute'])){
+    $attribute=$data['attribute'];
+}else{$attribute=$_POST['attribute'];}
+if (isset($data['id'])){
+    $userId=$data['id'];
+}else{$userId=$_POST['id'];}
 
-$attribute = $data['attribute'];
-$value = $data['value'];
-$userId = $data['id'];
+
 
 $validAttributes = ['bac', 'phone', 'picture', 'cv', 'parcour','competence', 'interet'];
 
@@ -70,13 +74,19 @@ if ($attribute == 'picture' || $attribute == 'cv') {
 
     
 } elseif ($attribute == 'parcour') {
+    if(!isset($data['value'])) {
+        echo json_encode(['error' => 'value and value not provided']);
+        exit;
+    }
     
 
     
-        $value = $data['value'];
+    $attribute = $data['attribute'];
+    $value = $data['value'];
+    $userId = $data['id'];
 
 // Décode la liste JSON
-$listeParcours = json_decode($value, true);
+$listeParcours = $value;
 foreach ($listeParcours['liste_parcoure'] as $parcours) {
     // Stocke chaque donnée dans une variable
     $nomEtablissement = $parcours['nom_etablissement'];
@@ -102,7 +112,13 @@ foreach ($listeParcours['liste_parcoure'] as $parcours) {
 
     
 } else {
-
+    if(!isset($data['value'])) {
+        echo json_encode(['error' => 'value and value not provided']);
+        exit;
+    }
+    $attribute = $data['attribute'];
+$value = $data['value'];
+$userId = $data['id'];
     $sql = "UPDATE `user` SET `$attribute`=? WHERE `id`=?";
     $stmt = $conn->prepare($sql);
 
