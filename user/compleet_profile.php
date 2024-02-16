@@ -1,5 +1,5 @@
-
 <?php
+
 include '../connection.php';
 
 $rawBody = file_get_contents('php://input');
