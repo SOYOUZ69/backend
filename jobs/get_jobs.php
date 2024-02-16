@@ -16,7 +16,9 @@ FROM job_post
 JOIN user ON job_post.id_poster = user.id
 LEFT JOIN favoris ON favoris.object_type = 'job' AND favoris.id_object = job_post.id AND favoris.id_u = $id_user
 WHERE job_post.id > $lastId
+ORDER BY job_post.date DESC
 LIMIT 10;
+
 ";
 
     $result = $conn->query($sql);
