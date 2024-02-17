@@ -44,7 +44,7 @@ if ($attribute == 'picture' || $attribute == 'cv') {
         $end_expl = end($exp);
         $file_ext = strtolower($end_expl);
 
-        $expensions = array("jpeg", "jpg", "png");
+        $expensions = array("jpeg", "jpg", "png","pdf");
 
         if (in_array($file_ext, $expensions) === false) {
             $errors[] = "extension not allowed, please choose a JPEG or PNG file.";
