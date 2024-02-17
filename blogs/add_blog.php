@@ -9,7 +9,7 @@ if (isset($data["id_poster"], $data["full_desc"], $data["metakey"])) {
     $full_desc = $data["full_desc"];
     $metakey = $data["metakey"];
 
-    $sql = "INSERT INTO `blog_post`(`full_desc`, `metakey`, `id_poster`, `state`) VALUES (?, ?, ?, 1)";
+    $sql = "INSERT INTO `blog_post`(`full_desc`, `metakey`, `id_poster`, `state`) VALUES (?, ?, ?, 0)";
 
     $stmt = $conn->prepare($sql);
 

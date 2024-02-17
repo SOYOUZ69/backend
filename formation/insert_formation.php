@@ -37,9 +37,10 @@ if ($_POST["nom"]) {
         }
     }
 
-    $sql = "INSERT INTO `formation`(`nom`, `description`, `cover`, `link`, `price`, `date`, `company_url`, `metakey`, `id_poster`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO `formation`(`nom`, `description`, `cover`, `link`, `price`, `date`, `company_url`, `metakey`, `id_poster`,`state`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,0)";
     
-    $stmt = $conn->prepare($sql);
+  $stmt = $conn->prepare($sql);
+    
     
     if ($stmt) {
         $stmt->bind_param("ssssdsssi", $nom, $description, $logo, $link, $price, $date, $company_url, $metakey, $id_poster);
