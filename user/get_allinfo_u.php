@@ -9,29 +9,7 @@ $data = json_decode($rawBody, true);
 $response = array();
 if (isset($data['id'])) {
 $id = $data['id'];
-
-$sql = "SELECT * FROM user WHERE `id`=".$id;
-$result = $conn->query($sql);
-
-
-
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $phone = $row["phone"];
-    $phoneEncoded = json_decode($phone, true);
-    
-    
-    
-    $interet = $row["interet"];
-    
-    
-    $bac = $row["bac"];
-    
-    $competence = $row["competence"];
-    $competenceEncoded = json_decode($competence, true);
-    
-    $response["phone"] = $phoneEncoded;
-    $sql2 = "SELECT * FROM `parcour` WHERE `id_u`=".$id;
+$sql2 = "SELECT * FROM `parcour` WHERE `id_u`=".$id;
 
 $result1 = $conn->query($sql2);
 
@@ -42,10 +20,31 @@ $parcour = [];
        
     }
     $response["liste_parcoure"] = $parcour;
-    $response["interet"] = $row["interet"];
-    $response["competence"] = $competence;
-    $response["bac"] = $bac;
 
+$sql = "SELECT * FROM user WHERE `id`=".$id;
+$result = $conn->query($sql);
+
+
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $response["username"] = $row["username"];
+    $response["email"] = $row["email"];
+    $response["genre"] = $row["genre"];
+
+    $phone = $row["phone"];
+    $phoneEncoded = json_decode($phone, true);
+    $response["phone"] = $phoneEncoded;
+    
+    $response["interet"] = $row["interet"];
+
+    $bac = $row["bac"];
+    $response["bac"] = $bac;
+    
+    $competence = $row["competence"];
+    $competenceEncoded = json_decode($competence, true);
+    $response["competence"] = $competence;
+    
     if ($row["cv"]) {
     $cv = $row["cv"];
     $response["cv"] = $cv;
@@ -59,6 +58,7 @@ $parcour = [];
     } else {
     $response["photo"] = false;
     }
+
     $sql11 = "SELECT interet FROM user WHERE `id`=1";
 $result11 = $conn->query($sql11);
 
@@ -66,7 +66,6 @@ if ($result11->num_rows > 0) {
     $row11 = $result11->fetch_assoc();
     $interet_all= [];
     $interet_all=$row11["interet"];
-
     $response["interet_all"] =$interet_all;
 }
 } else { $response["get"] = false;
