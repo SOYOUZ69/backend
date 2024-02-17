@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 10 fév. 2024 à 21:23
+-- Généré le : dim. 18 fév. 2024 à 00:02
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -33,25 +33,9 @@ CREATE TABLE `blog_post` (
   `full_desc` text NOT NULL,
   `metakey` text NOT NULL,
   `id_poster` int(11) NOT NULL,
-  `state` int(11) NOT NULL
+  `state` int(11) NOT NULL,
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `blog_post`
---
-
-INSERT INTO `blog_post` (`id`, `bief_desc`, `full_desc`, `metakey`, `id_poster`, `state`) VALUES
-(1, 'blog1', 'blog 1 complet', 'test metakey,test metakey1', 1, 1),
-(2, 'blog2', 'blog 2 complet', 'test metakey2,test metakey3', 1, 1),
-(3, 'blog3', 'blog 3 complet', 'test metakey4,test metakey5', 1, 1),
-(4, 'blog4', 'blog 4 complet', 'test metakey6,test metakey7', 1, 1),
-(5, 'blog5', 'blog 5 complet', 'test metakey8,test metakey9', 1, 1),
-(6, 'blog6', 'blog 6 complet', 'test metakey10,test metakey11', 1, 1),
-(7, 'blog7', 'blog 7 complet', 'test metakey12,test metakey13', 1, 1),
-(8, 'blog8', 'blog 8 complet', 'test metakey14,test metakey15', 1, 1),
-(9, 'blog9', 'blog 9 complet', 'test metakey16,test metakey17', 1, 1),
-(10, 'blog10', 'blog 10 complet', 'test metakey18,test metakey19', 1, 1),
-(11, 'blog11', 'blog 11 complet', 'test metakey20,test metakey21', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -82,6 +66,14 @@ CREATE TABLE `favoris` (
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `favoris`
+--
+
+INSERT INTO `favoris` (`id`, `object_type`, `id_object`, `id_u`, `date`) VALUES
+(1, 'job', 1, 1, '2024-02-15'),
+(2, 'job', 3, 1, '2024-02-15');
+
 -- --------------------------------------------------------
 
 --
@@ -94,28 +86,32 @@ CREATE TABLE `formation` (
   `description` text NOT NULL,
   `cover` text NOT NULL,
   `link` text NOT NULL,
-  `trailer` text NOT NULL,
+  `trailer` text DEFAULT NULL,
   `price` text NOT NULL,
   `date` date NOT NULL,
   `company_url` text NOT NULL,
   `metakey` varchar(255) DEFAULT NULL,
-  `id_poster` int(11) NOT NULL
+  `id_poster` int(11) NOT NULL,
+  `state` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `formation`
 --
 
-INSERT INTO `formation` (`id`, `nom`, `description`, `cover`, `link`, `trailer`, `price`, `date`, `company_url`, `metakey`, `id_poster`) VALUES
-(1, 'formation1', 'desc1', 'cover1', 'link1', 'trailer1', '22', '2023-12-15', 'url1', 'formation,e-learning,en ligne', 14),
-(2, 'formation2_test', 'desc2', 'https://media.licdn.com/dms/image/D4D12AQGUFz6pDZzKYQ/article-cover_image-shrink_720_1280/0/1658400820592?e=2147483647&v=beta&t=_V1yQDtefqFfzTDr6M1FSfgMz1xNSYg4KUknhcl3-xY', 'link2', 'trailer2', '22', '2023-12-15', 'url2', 'formation2,e-learning2,en ligne2', 14),
-(3, 'formation3', 'desc3', 'https://www.ovhcloud.com/sites/default/files/styles/large_screens_1x/public/2022-04/whatis_internet-of-things.png', 'link3', 'trailer3', '22', '2023-12-15', 'url3', 'formation3,e-learning3', 14),
-(4, 'formation', 'dsc', '1706915041_halo-dark-clouds-d9cgeojpb60w37x.png', 'tesla.com', '', '200', '2023-12-15', 'tesla', 'x', 1),
-(5, 'formation', 'dsc', '1706915163_halo-dark-clouds-d9cgeojpb60w37x.png', 'tesla.com', '', '200', '2023-12-15', 'tesla', 'x', 1),
-(6, 'formation', 'dsc', '1706915673_halo-dark-clouds-d9cgeojpb60w37x.png', 'tesla.com', '', '200', '2023-12-15', 'tesla', 'x', 1),
-(7, 'formation', 'dsc', '1706915676_halo-dark-clouds-d9cgeojpb60w37x.png', 'tesla.com', '', '200', '2023-12-15', 'tesla', 'x', 1),
-(8, 'formation', 'dsc', '1706917475_halo-dark-clouds-d9cgeojpb60w37x.png', 'tesla.com', '', '200', '2023-12-15', 'tesla', 'x', 1),
-(9, 'mouadh', 'moadh miboun ', '1706937912_cover.jpg', ':com', '', '200', '2024-02-03', ':com', 'css, html', 7);
+INSERT INTO `formation` (`id`, `nom`, `description`, `cover`, `link`, `trailer`, `price`, `date`, `company_url`, `metakey`, `id_poster`, `state`) VALUES
+(1, 'formation1', 'desc1', 'admin.png', 'link1', 'trailer1', '22', '2023-12-15', 'url1', 'formation,e-learning,en ligne', 14, 1),
+(2, 'formation2_test', 'desc2', 'https://media.licdn.com/dms/image/D4D12AQGUFz6pDZzKYQ/article-cover_image-shrink_720_1280/0/1658400820592?e=2147483647&v=beta&t=_V1yQDtefqFfzTDr6M1FSfgMz1xNSYg4KUknhcl3-xY', 'link2', 'trailer2', '22', '2023-12-15', 'url2', 'formation2,e-learning2,en ligne2', 14, 1),
+(3, 'formation3', 'desc3', 'https://www.ovhcloud.com/sites/default/files/styles/large_screens_1x/public/2022-04/whatis_internet-of-things.png', 'link3', 'trailer3', '22', '2023-12-15', 'url3', 'formation3,e-learning3', 14, 1),
+(4, 'formation', 'dsc', '1706915041_halo-dark-clouds-d9cgeojpb60w37x.png', 'tesla.com', '', '200', '2023-12-15', 'tesla', 'x', 1, 1),
+(5, 'formation', 'dsc', '1706915163_halo-dark-clouds-d9cgeojpb60w37x.png', 'tesla.com', '', '200', '2023-12-15', 'tesla', 'x', 1, 1),
+(6, 'formation', 'dsc', '1706915673_halo-dark-clouds-d9cgeojpb60w37x.png', 'tesla.com', '', '200', '2023-12-15', 'tesla', 'x', 1, 1),
+(7, 'formation', 'dsc', '1706915676_halo-dark-clouds-d9cgeojpb60w37x.png', 'tesla.com', '', '200', '2023-12-15', 'tesla', 'x', 1, 1),
+(8, 'formation', 'dsc', '1706917475_halo-dark-clouds-d9cgeojpb60w37x.png', 'tesla.com', '', '200', '2023-12-15', 'tesla', 'x', 1, 1),
+(9, 'mouadh', 'moadh miboun ', '1706937912_cover.jpg', ':com', '', '200', '2025-03-03', ':com', 'css, html', 7, 1),
+(10, 'test load', 'load more limit', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpnGWSZ00Lo3LcBVH1WyEhCvso0GxYpELgMWcj29wnjA&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpnGWSZ00Lo3LcBVH1WyEhCvso0GxYpELgMWcj29wnjA&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpnGWSZ00Lo3LcBVH1WyEhCvso0GxYpELgMWcj29wnjA&s', '255', '2024-02-23', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpnGWSZ00Lo3LcBVH1WyEhCvso0GxYpELgMWcj29wnjA&s', 'test metakey,1', 1, 1),
+(11, 'rechercher', 'load more limit1', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpnGWSZ00Lo3LcBVH1WyEhCvso0GxYpELgMWcj29wnjA&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpnGWSZ00Lo3LcBVH1WyEhCvso0GxYpELgMWcj29wnjA&s', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpnGWSZ00Lo3LcBVH1WyEhCvso0GxYpELgMWcj29wnjA&s', '255', '2024-02-23', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpnGWSZ00Lo3LcBVH1WyEhCvso0GxYpELgMWcj29wnjA&s', 'test metakey,1', 1, 1),
+(12, 'omar', 'desc', '1707951092_cover.jpg', 'link', '', '233', '2024-02-14', 'link', 'css', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -143,7 +139,7 @@ CREATE TABLE `job_post` (
 --
 
 INSERT INTO `job_post` (`id`, `brief_desc`, `full_desc`, `qualifications`, `date`, `salary`, `location`, `condidats_number`, `metakey`, `state`, `id_poster`, `e_link`) VALUES
-(1, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, 'https://www.e-smarttec.com/'),
+(1, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse,iso,css', 1, 7, 'https://www.e-smarttec.com/'),
 (2, 'job2', 'job2 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, 'https://www.amazon.com'),
 (3, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
 (4, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
@@ -215,7 +211,9 @@ INSERT INTO `parcour` (`id`, `id_u`, `nom_etablissement`, `date_debut`, `date_fi
 (8, 1, 'test_parcour8', '2024-07-01', '2024-07-15', 'test8', 'domaine8'),
 (9, 1, 'test_parcour9', '2024-07-20', '2024-08-05', 'test9', 'domaine9'),
 (10, 1, 'test_parcour10', '2024-08-10', '2024-08-25', 'test10', 'domaine10'),
-(11, 1, 'test_parcour11', '2024-09-01', '2024-09-15', 'test11', 'domaine11');
+(11, 1, 'test_parcour11', '2024-09-01', '2024-09-15', 'test11', 'domaine11'),
+(12, 7, 'Nom1', '2022-01-01', '2022-12-31', 'Bac', 'Informatique'),
+(13, 7, 'Nom2', '2023-01-01', '2023-12-31', 'Master', 'Ingénierie');
 
 -- --------------------------------------------------------
 
@@ -248,7 +246,7 @@ CREATE TABLE `user` (
   `date_birth` date NOT NULL,
   `points` int(11) NOT NULL,
   `listparcour` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `phone` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`phone`)),
+  `phone` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `bac` tinyint(1) DEFAULT NULL,
   `interet` varchar(255) DEFAULT NULL,
   `competence` varchar(255) DEFAULT NULL,
@@ -260,8 +258,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `picture`, `country`, `genre`, `type`, `date_birth`, `points`, `listparcour`, `phone`, `bac`, `interet`, `competence`, `cv`) VALUES
-(1, 'admin', 'admin', 'admin', 'path', 'tunis', 'm', 'admin', '2023-11-16', 100000, '{\"nom_etablissement\":\"u00c9cole Polytechnique Fu00e9du00e9rale de Lausanne\",\"date_debut\":\"2020-09-01\",\"diplome\":\"Diplu00f4me d\'ingu00e9nieur\",\"domaine\":\"Informatique\",\"0\":{\"nom_etablissement\":\"Universit\\u00e9 de Tunis\",\"date_debut\":\"2023-09-01\",\"diplome\":\"Master en informatique\",\"domaine\":\"Informatique\"},\"1\":{\"nom_etablissement\":\"Entreprise XYZ\",\"date_debut\":\"2024-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique\"},\"2\":{\"nom_etablissement\":\"Entreprise XYZ\",\"date_debut\":\"2024-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique\"}}24106509,21416878,25200959', '21416878', NULL, 'Voyages,Photographie,Cuisine,Sport,Lecture,Art,Technologie,Musique,Bénévolat,Science,Cinéma/TV,Mode,Jeux,Langues', 'Voyages,Photographie,Cuisine,Sport,Lecture,Art,Technologie,Musique,Bénévolat,Science,Cinéma/TV,Mode,Jeux,Langues', NULL),
-(7, 'Omar', '82c4d0c62c2d5eb27bf42b570d0d05a8', 'Omarmsaad4@gmail.com', '', '', '', '', '0000-00-00', 0, '{\"nom_etablissement\":\"Entreprise abc\",\"date_debut\":\"2023-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique appliqu\\u00e9e\"}', NULL, NULL, NULL, '', NULL),
+(1, 'admine', 'admin', 'admin', 'admin.png', 'tunis', 'm', 'admin', '2023-11-16', 100000, '{\"nom_etablissement\":\"u00c9cole Polytechnique Fu00e9du00e9rale de Lausanne\",\"date_debut\":\"2020-09-01\",\"diplome\":\"Diplu00f4me d\'ingu00e9nieur\",\"domaine\":\"Informatique\",\"0\":{\"nom_etablissement\":\"Universit\\u00e9 de Tunis\",\"date_debut\":\"2023-09-01\",\"diplome\":\"Master en informatique\",\"domaine\":\"Informatique\"},\"1\":{\"nom_etablissement\":\"Entreprise XYZ\",\"date_debut\":\"2024-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique\"},\"2\":{\"nom_etablissement\":\"Entreprise XYZ\",\"date_debut\":\"2024-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique\"}}24106509,21416878,25200959', '21416878', NULL, 'Voyages,Photographie,Cuisine,Sport,Lecture,Art,Technologie,Musique,Bénévolat,Science,Cinéma/TV,Mode,Jeux,Langues', 'Voyages,Photographie,Cuisine,Sport,Lecture,Art,Technologie,Musique,Bénévolat,Science,Cinéma/TV,Mode,Jeux,Langues', NULL),
+(7, 'Omar', '82c4d0c62c2d5eb27bf42b570d0d05a8', 'Omarmsaad4@gmail.com', '1708117833_admin.png', '', '', '', '0000-00-00', 0, '{\"nom_etablissement\":\"Entreprise abc\",\"date_debut\":\"2023-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique appliqu\\u00e9e\"}', NULL, NULL, NULL, '', '1708117794_admin.png'),
 (8, 'Omar', '82c4d0c62c2d5eb27bf42b570d0d05a8', 'Omarmsaad8@gmail.com', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
 (9, 'Omar', '82c4d0c62c2d5eb27bf42b570d0d05a8', 'Omarmsaad8@gmail.come', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
 (10, 'Omar', '82c4d0c62c2d5eb27bf42b570d0d05a8', 'Omarmsaad8@gmail.comei', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
@@ -269,7 +267,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `picture`, `country`,
 (12, 'Omar', '82c4d0c62c2d5eb27bf42b570d0d05a8', 'Omarmsaad8@gmail.comeil9', '', '', '', '', '0000-00-00', 0, '24106509', NULL, NULL, NULL, '', NULL),
 (13, 'Omar', '82c4d0c62c2d5eb27bf42b570d0d05a8', 'Omarmsaad8@gmail.comeil9k', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
 (14, 'abiz', 'b88e9ea8be0dacc2dd7a58f471be601d', 'ab@gmail.com', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
-(15, 'test', '098f6bcd4621d373cade4e832627b4f6', 'test@gmail.com', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
+(15, 'test', '098f6bcd4621d373cade4e832627b4f6', 'test@gmail.com', '', '', '', '', '0000-00-00', 0, NULL, NULL, 0, NULL, '', NULL),
 (16, 'test', '098f6bcd4621d373cade4e832627b4f6', 'test@gmail.come', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
 (17, 'test', '098f6bcd4621d373cade4e832627b4f6', 'test@gmail.come2', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
 (18, 'test', '098f6bcd4621d373cade4e832627b4f6', 'test@gmail.come23', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
@@ -371,13 +369,13 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT pour la table `favoris`
 --
 ALTER TABLE `favoris`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `formation`
 --
 ALTER TABLE `formation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `job_post`
@@ -401,7 +399,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT pour la table `parcour`
 --
 ALTER TABLE `parcour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `upvotes`
@@ -413,7 +411,7 @@ ALTER TABLE `upvotes`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Contraintes pour les tables déchargées
