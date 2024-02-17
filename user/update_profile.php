@@ -20,7 +20,7 @@ $attribute = $data['attribute'];
 $value = $data['value'];
 $userId = $data['id'];
 
-$validAttributes = ['username', 'phone', 'picture', 'cv', 'email', 'password', 'parcour', 'interet'];
+$validAttributes = ['username',,'genre' 'phone', 'picture', 'cv', 'email', 'password', 'parcour', 'interet'];
 
 if (!in_array($attribute, $validAttributes)) {
     echo json_encode(['error' => 'Invalid attribute']);
