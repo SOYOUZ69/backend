@@ -34,7 +34,7 @@ if ($result->num_rows > 0) {
 
     $phone = $row["phone"];
     $phoneEncoded = json_decode($phone, true);
-    $response["phone"] = $phoneEncoded;
+    $response["phone"] = $phone;
     
     $response["interet"] = $row["interet"];
 

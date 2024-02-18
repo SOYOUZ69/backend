@@ -1,4 +1,5 @@
 <?php
+
 include '../connection.php';
 
 $rawBody = file_get_contents('php://input');
@@ -6,21 +7,25 @@ $data = json_decode($rawBody, true);
 
 $msg = false;
 
-if (!isset($data['attribute']) || !isset($data['value'])) {
-    echo json_encode(['error' => 'Attribute and value not provided']);
+if (!isset($data['attribute'])&&!isset($_POST['attribute'])) {
+    echo json_encode(['error' => 'Attribute not provided']);
     exit;
 }
 
-if (!isset($data['id'])) {
+if (!isset($data['id'])&&!isset($_POST['id'])) {
     echo json_encode(['error' => 'User ID not provided']);
     exit;
 }
+if (isset($data['attribute'])){
+    $attribute=$data['attribute'];
+}else{$attribute=$_POST['attribute'];}
+if (isset($data['id'])){
+    $userId=$data['id'];
+}else{$userId=$_POST['id'];}
 
-$attribute = $data['attribute'];
-$value = $data['value'];
-$userId = $data['id'];
 
-$validAttributes = ['username','genre', 'phone', 'picture', 'cv', 'email', 'password', 'parcour', 'interet'];
+
+$validAttributes = ['bac','genre', 'phone', 'picture', 'cv', 'parcour','competence', 'interet'];
 
 if (!in_array($attribute, $validAttributes)) {
     echo json_encode(['error' => 'Invalid attribute']);
@@ -39,7 +44,7 @@ if ($attribute == 'picture' || $attribute == 'cv') {
         $end_expl = end($exp);
         $file_ext = strtolower($end_expl);
 
-        $expensions = array("jpeg", "jpg", "png");
+        $expensions = array("jpeg", "jpg", "png","pdf");
 
         if (in_array($file_ext, $expensions) === false) {
             $errors[] = "extension not allowed, please choose a JPEG or PNG file.";
@@ -69,6 +74,10 @@ if ($attribute == 'picture' || $attribute == 'cv') {
 
     
 } elseif ($attribute == 'parcour') {
+    if (!isset($data['operation'])) {
+        echo json_encode(['error' => 'operation manquante']);
+        exit;
+    }
     $op = $data['operation'];
 
     if ($op == "add") {
