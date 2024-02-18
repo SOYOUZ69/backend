@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : dim. 18 fév. 2024 à 00:02
+-- Généré le : dim. 18 fév. 2024 à 06:03
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -37,6 +37,13 @@ CREATE TABLE `blog_post` (
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `blog_post`
+--
+
+INSERT INTO `blog_post` (`id`, `bief_desc`, `full_desc`, `metakey`, `id_poster`, `state`, `date`) VALUES
+(1, 'post 1', 'post 1 ', 'css,html', 1, 1, '0000-00-00');
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +58,14 @@ CREATE TABLE `comment` (
   `message` text NOT NULL,
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `comment`
+--
+
+INSERT INTO `comment` (`id`, `object_type`, `id_object`, `id_u`, `message`, `date`) VALUES
+(1, 'blog', 1, 1, 'mesage', '2024-02-19'),
+(2, 'blog', 1, 1, 'coment 2', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -116,6 +131,29 @@ INSERT INTO `formation` (`id`, `nom`, `description`, `cover`, `link`, `trailer`,
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `job_application`
+--
+
+CREATE TABLE `job_application` (
+  `id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `id_u` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `job_application`
+--
+
+INSERT INTO `job_application` (`id`, `job_id`, `id_u`, `date`) VALUES
+(1, 16, 1, '2024-02-18'),
+(2, 16, 7, '2024-02-18'),
+(3, 16, 8, '2024-02-18'),
+(4, 16, 9, '2024-02-18');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `job_post`
 --
 
@@ -131,28 +169,33 @@ CREATE TABLE `job_post` (
   `metakey` text NOT NULL,
   `state` int(11) NOT NULL,
   `id_poster` int(11) NOT NULL,
-  `e_link` text NOT NULL
+  `e_link` text NOT NULL,
+  `job_status` text NOT NULL,
+  `job_type` text NOT NULL,
+  `domaine` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `job_post`
 --
 
-INSERT INTO `job_post` (`id`, `brief_desc`, `full_desc`, `qualifications`, `date`, `salary`, `location`, `condidats_number`, `metakey`, `state`, `id_poster`, `e_link`) VALUES
-(1, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse,iso,css', 1, 7, 'https://www.e-smarttec.com/'),
-(2, 'job2', 'job2 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, 'https://www.amazon.com'),
-(3, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(4, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(5, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(6, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(7, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(8, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(9, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(10, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(11, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(12, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(13, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, ''),
-(14, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '');
+INSERT INTO `job_post` (`id`, `brief_desc`, `full_desc`, `qualifications`, `date`, `salary`, `location`, `condidats_number`, `metakey`, `state`, `id_poster`, `e_link`, `job_status`, `job_type`, `domaine`) VALUES
+(1, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse,iso,css', 1, 7, 'https://www.e-smarttec.com/', '', '', ''),
+(2, 'job2', 'job2 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, 'https://www.amazon.com', '', '', ''),
+(3, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(4, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(5, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(6, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(7, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(8, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(9, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(10, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(11, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(12, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(13, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(14, 'job1', 'job1 full', 'qualifications ', '2024-01-19', '2000', 'tunisia', 20, 'qhse', 0, 7, '', '', '', ''),
+(16, 'test_update', 'Nouvelle description complète', 'Nouveau diplôme', '2024-02-18', '300USD', 'PARIS', 0, 'CCC#DDD', 0, 1, '', 'Présence optionnelle', 'Nouvelle collaboration', 'Nouvelle Informatique'),
+(17, 'Nouvelle description courte', 'Nouvelle description complète', 'Nouveau diplôme', '0000-00-00', '300USD', 'PARIS', 0, 'CCC#DDD', 0, 1, '', 'Présence optionnelle', 'Nouvelle collaboration', 'Nouvelle Informatique');
 
 -- --------------------------------------------------------
 
@@ -228,6 +271,14 @@ CREATE TABLE `upvotes` (
   `type` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `upvotes`
+--
+
+INSERT INTO `upvotes` (`id`, `id_u`, `id_o`, `type`) VALUES
+(1, 1, 1, 'comment'),
+(2, 2, 2, 'comment');
+
 -- --------------------------------------------------------
 
 --
@@ -258,7 +309,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `picture`, `country`, `genre`, `type`, `date_birth`, `points`, `listparcour`, `phone`, `bac`, `interet`, `competence`, `cv`) VALUES
-(1, 'admine', 'admin', 'admin', 'admin.png', 'tunis', 'm', 'admin', '2023-11-16', 100000, '{\"nom_etablissement\":\"u00c9cole Polytechnique Fu00e9du00e9rale de Lausanne\",\"date_debut\":\"2020-09-01\",\"diplome\":\"Diplu00f4me d\'ingu00e9nieur\",\"domaine\":\"Informatique\",\"0\":{\"nom_etablissement\":\"Universit\\u00e9 de Tunis\",\"date_debut\":\"2023-09-01\",\"diplome\":\"Master en informatique\",\"domaine\":\"Informatique\"},\"1\":{\"nom_etablissement\":\"Entreprise XYZ\",\"date_debut\":\"2024-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique\"},\"2\":{\"nom_etablissement\":\"Entreprise XYZ\",\"date_debut\":\"2024-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique\"}}24106509,21416878,25200959', '21416878', NULL, 'Voyages,Photographie,Cuisine,Sport,Lecture,Art,Technologie,Musique,Bénévolat,Science,Cinéma/TV,Mode,Jeux,Langues', 'Voyages,Photographie,Cuisine,Sport,Lecture,Art,Technologie,Musique,Bénévolat,Science,Cinéma/TV,Mode,Jeux,Langues', NULL),
+(1, 'admine', 'admin', 'admin', 'admin.png', 'tunis', 'm', 'admin', '2023-11-16', 100000, '{\"nom_etablissement\":\"u00c9cole Polytechnique Fu00e9du00e9rale de Lausanne\",\"date_debut\":\"2020-09-01\",\"diplome\":\"Diplu00f4me d\'ingu00e9nieur\",\"domaine\":\"Informatique\",\"0\":{\"nom_etablissement\":\"Universit\\u00e9 de Tunis\",\"date_debut\":\"2023-09-01\",\"diplome\":\"Master en informatique\",\"domaine\":\"Informatique\"},\"1\":{\"nom_etablissement\":\"Entreprise XYZ\",\"date_debut\":\"2024-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique\"},\"2\":{\"nom_etablissement\":\"Entreprise XYZ\",\"date_debut\":\"2024-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique\"}}24106509,21416878,25200959', '+126 24106509', NULL, 'Voyages,Photographie,Cuisine,Sport,Lecture,Art,Technologie,Musique,Bénévolat,Science,Cinéma/TV,Mode,Jeux,Langues', 'Voyages,Photographie,Cuisine,Sport,Lecture,Art,Technologie,Musique,Bénévolat,Science,Cinéma/TV,Mode,Jeux,Langues', '1708214358_Catalogue-de-formation-SMARTTEC-2022.pdf'),
 (7, 'Omar', '82c4d0c62c2d5eb27bf42b570d0d05a8', 'Omarmsaad4@gmail.com', '1708117833_admin.png', '', '', '', '0000-00-00', 0, '{\"nom_etablissement\":\"Entreprise abc\",\"date_debut\":\"2023-01-01\",\"diplome\":\"Ing\\u00e9nieur en informatique\",\"domaine\":\"Informatique appliqu\\u00e9e\"}', NULL, NULL, NULL, '', '1708117794_admin.png'),
 (8, 'Omar', '82c4d0c62c2d5eb27bf42b570d0d05a8', 'Omarmsaad8@gmail.com', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
 (9, 'Omar', '82c4d0c62c2d5eb27bf42b570d0d05a8', 'Omarmsaad8@gmail.come', '', '', '', '', '0000-00-00', 0, NULL, NULL, NULL, NULL, '', NULL),
@@ -310,6 +361,12 @@ ALTER TABLE `formation`
   ADD KEY `id_poster` (`id_poster`);
 
 --
+-- Index pour la table `job_application`
+--
+ALTER TABLE `job_application`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `job_post`
 --
 ALTER TABLE `job_post`
@@ -357,13 +414,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `blog_post`
 --
 ALTER TABLE `blog_post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `favoris`
@@ -378,10 +435,16 @@ ALTER TABLE `formation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT pour la table `job_application`
+--
+ALTER TABLE `job_application`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT pour la table `job_post`
 --
 ALTER TABLE `job_post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT pour la table `message`
@@ -405,7 +468,7 @@ ALTER TABLE `parcour`
 -- AUTO_INCREMENT pour la table `upvotes`
 --
 ALTER TABLE `upvotes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `user`
