@@ -10,7 +10,13 @@ $data = json_decode($rawBody, true);
 if (isset($data['id'])) {
     $Id = (int) $data['id'];
 
-    $sql = "SELECT * FROM `job_post` WHERE `id` in (SELECT id_object FROM `favoris` WHERE `id_u`=$Id and `object_type` ='job')";
+    $sql = "
+    SELECT job_post.*, user.username AS poster_username, user.picture AS poster_picture
+    FROM job_post
+    JOIN favoris ON job_post.id IN (favoris.id_object)
+    JOIN user ON job_post.id_poster = user.id
+    WHERE favoris.id_u = $Id AND favoris.object_type = 'job';
+    ";
 
     $result = $conn->query($sql);
 
@@ -18,7 +24,7 @@ if (isset($data['id'])) {
 
     while ($row = $result->fetch_assoc()) {
         $formations[] = $row;
-        $lastId = $row['id'];
+        
     }
 
     echo json_encode(array("saved" => $formations));
