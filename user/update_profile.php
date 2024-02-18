@@ -25,7 +25,7 @@ if (isset($data['id'])){
 
 
 
-$validAttributes = ['bac','genre', 'phone', 'picture', 'cv', 'parcour','competence', 'interet'];
+$validAttributes = ['username','bac','genre', 'phone', 'picture', 'cv', 'parcour','competence', 'interet'];
 
 if (!in_array($attribute, $validAttributes)) {
     echo json_encode(['error' => 'Invalid attribute']);
@@ -121,6 +121,7 @@ foreach ($listeParcours['liste_parcoure'] as $parcours) {
         }
     }
 } else {
+    $value = $data['value'];
 
     $sql = "UPDATE `user` SET `$attribute`=? WHERE `id`=?";
     $stmt = $conn->prepare($sql);
