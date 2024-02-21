@@ -7,7 +7,7 @@ $rawBody = file_get_contents('php://input');
 // Decode JSON data (assuming the ID is sent as JSON)
 $data = json_decode($rawBody, true);
 
-if (isset($data['bp'])&&isset($data['id_u'])) {
+if (isset($data['last_id'])&&isset($data['id_u'])) {
     // Ensure lastId is an integer
     $lastId = isset($data['last_id']) ? (int)$data['last_id'] : 0;
 $id_u=$data['id_u'];
