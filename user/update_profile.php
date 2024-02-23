@@ -25,7 +25,7 @@ if (isset($data['id'])){
 
 
 
-$validAttributes = ['username','bac','genre', 'phone', 'picture', 'cv', 'parcour','competence', 'interet'];
+$validAttributes = ['username','bac','genre', 'phone', 'picture','date_birth', 'cv', 'parcour','competence', 'interet'];
 
 if (!in_array($attribute, $validAttributes)) {
     echo json_encode(['error' => 'Invalid attribute']);
