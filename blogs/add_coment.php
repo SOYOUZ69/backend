@@ -8,7 +8,7 @@ if (isset($data["id_poster"], $data["comment"], $data["id_blog"])) {
     $id_poster = $data["id_poster"];
     $comment = $data["comment"];
     $id_blog = $data["id_blog"];
-    $object_type ="comment";
+    $object_type ="blog";
 
     $sql = "INSERT INTO `comment` (`object_type`, `id_object`, `id_u`, `message`, `date`) VALUES (?, ?, ?, ?, NOW())";
 
