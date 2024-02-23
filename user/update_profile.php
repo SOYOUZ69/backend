@@ -81,10 +81,10 @@ if ($attribute == 'picture' || $attribute == 'cv') {
     $op = $data['operation'];
 
     if ($op == "add") {
-        $value = $data['value'];
+        
 
 // Décode la liste JSON
-$listeParcours = json_decode($value, true);
+$listeParcours = $data['value'];
 foreach ($listeParcours['liste_parcoure'] as $parcours) {
     // Stocke chaque donnée dans une variable
     $nomEtablissement = $parcours['nom_etablissement'];
