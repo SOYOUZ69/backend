@@ -7,28 +7,39 @@ $rawBody = file_get_contents('php://input');
 // Decode JSON data (assuming the ID is sent as JSON)
 $data = json_decode($rawBody, true);
 
-if (isset($data['bp'])&&isset($data['id_u'])) {
+if (isset($data['last_id'])&&isset($data['id_u'])) {
     // Ensure lastId is an integer
     $lastId = isset($data['last_id']) ? (int)$data['last_id'] : 0;
 $id_u=$data['id_u'];
 
     // Adjust the SQL query to filter by ID greater than the last ID
-    $sql = "
-    SELECT 
-        blog_post.*, 
-        COUNT(upvotes.id) AS upvote_count, 
-        COUNT(comment.id) AS comment_count, 
-        user.username, 
-        user.picture,
-        CASE WHEN upvotes.id_u = $id_u THEN true ELSE false END AS `like`
-    FROM blog_post
-    LEFT JOIN upvotes ON blog_post.id = upvotes.id_o AND upvotes.type = 'blog' AND upvotes.id_u = $id_u
-    LEFT JOIN user ON blog_post.id_poster = user.id
-    LEFT JOIN comment ON blog_post.id = comment.id_object AND comment.object_type = 'blog'
-    WHERE blog_post.state = 1 AND blog_post.id > $lastId
-    GROUP BY blog_post.id
-    ORDER BY upvote_count DESC
-    LIMIT 10";  // Limit the result to 10 rows
+    $sql = "SELECT
+    bp.id,
+    bp.bief_desc,
+    bp.full_desc,
+    bp.metakey,
+    u.username,
+    u.picture,
+    bp.state,
+    bp.date,
+    COUNT(DISTINCT c.id) AS comment_count,
+    COUNT(DISTINCT up.id) AS upvote_count,
+    CASE WHEN up.id_u = $id_u THEN 1 ELSE 0 END AS `like`
+FROM
+    blog_post bp
+LEFT JOIN
+    comment c ON bp.id = c.id_object AND c.object_type = 'blog'
+LEFT JOIN
+    upvotes up ON bp.id = up.id_o AND up.type = 'blog'
+JOIN
+    user u ON bp.id_poster = u.id
+GROUP BY
+    bp.id, bp.bief_desc, bp.full_desc, bp.metakey, u.username, u.picture, bp.state, bp.date
+ORDER BY
+    upvote_count DESC, bp.date DESC
+LIMIT
+    $lastId, 10
+";  // Limit the result to 10 rows
 
     $result = $conn->query($sql);
 

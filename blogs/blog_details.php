@@ -9,27 +9,37 @@ $data = json_decode($rawBody, true);
 
 if (isset($data['id']) && isset($data['id_u'])) {
     $Id = (int) $data['id'];
-    $id_u = $data['id_u']; // Ensure lastId is an integer
+    $id_u = $data['id_u'];
 
+    
     $sql = "
-    SELECT 
-        comment.id, 
-        comment.object_type, 
-        comment.id_object, 
-        comment.id_u, 
-        comment.message, 
-        comment.date, 
-        user.username, 
-        user.picture, 
-        COUNT(upvotes.id) AS upvote_count,
-        CASE WHEN comment.id_u = ? THEN true ELSE false END AS comentu,
-        CASE WHEN upvotes.id_u = ? THEN true ELSE false END AS like_u
-    FROM comment
-    JOIN user ON comment.id_u = user.id
-    LEFT JOIN upvotes ON comment.id_object = upvotes.id_o AND upvotes.type = 'comment'
-    WHERE comment.id_object = ?
-    GROUP BY comment.id, comment.object_type, comment.id_object, comment.id_u, comment.message, comment.date, user.username, user.picture;
-    ";
+  SELECT
+    c.id,
+    c.message,
+    c.date,
+    c.id_u,
+    CASE WHEN c.id_u = ? THEN 1 ELSE 0 END AS comentu,
+    (
+      SELECT COUNT(*)
+      FROM upvotes u
+      WHERE u.id_o = c.id AND u.type = 'comment'
+    ) AS upvote_count,
+    CASE WHEN EXISTS (
+      SELECT *
+      FROM upvotes u
+      WHERE u.id_o = c.id AND u.type = 'comment' AND u.id_u = ?
+    ) THEN 1 ELSE 0 END AS like_u,
+    u.username,
+    u.picture
+  FROM comment c
+  INNER JOIN user u ON
+    c.id_u = u.id
+  WHERE
+    c.id_object = ? AND
+    c.object_type = 'blog'
+  ORDER BY c.date DESC
+";
+
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('sss', $id_u, $id_u, $Id); // sss represents three string parameters, adjust if needed

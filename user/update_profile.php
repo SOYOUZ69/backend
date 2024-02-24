@@ -25,7 +25,7 @@ if (isset($data['id'])){
 
 
 
-$validAttributes = ['username','bac','genre', 'phone', 'picture', 'cv', 'parcour','competence', 'interet'];
+$validAttributes = ['username','bac','genre', 'phone', 'picture','date_birth', 'cv', 'parcour','competence', 'interet'];
 
 if (!in_array($attribute, $validAttributes)) {
     echo json_encode(['error' => 'Invalid attribute']);
@@ -81,10 +81,10 @@ if ($attribute == 'picture' || $attribute == 'cv') {
     $op = $data['operation'];
 
     if ($op == "add") {
-        $value = $data['value'];
+        
 
 // Décode la liste JSON
-$listeParcours = json_decode($value, true);
+$listeParcours = $data['value'];
 foreach ($listeParcours['liste_parcoure'] as $parcours) {
     // Stocke chaque donnée dans une variable
     $nomEtablissement = $parcours['nom_etablissement'];

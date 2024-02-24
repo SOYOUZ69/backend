@@ -31,9 +31,10 @@ if ($result->num_rows > 0) {
     $response["username"] = $row["username"];
     $response["email"] = $row["email"];
     $response["genre"] = $row["genre"];
+    $response["date_birth"] = $row["date_birth"];
 
     $phone = $row["phone"];
-    $phoneEncoded = json_decode($phone, true);
+    
     $response["phone"] = $phone;
     
     $response["interet"] = $row["interet"];
