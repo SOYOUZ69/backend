@@ -11,19 +11,21 @@ $data = json_decode($rawBody, true);
 if ($data !== null) {
     // Assuming your JSON structure has the following keys
     $idJob = isset($data['id_job']) ? (int)$data['id_job'] : null;
-    $shortDescription = $data['Short Description'];
-    $fullDescription = $data['Full Description'];
-    $jobType = $data['Job Type'];
-    $jobStatus = $data['Job Status'];
-    $price = $data['Price'];
-    $selectedCurrency = $data['Selected Currency'];
-    $metaKeys = $data['Meta Keys'];
     
-    $location = $data['Location'];
-    $qualifications = $data['Qualifications'];
-    $domains = $data['Domaines'];
-    $idPoster = (int)$data["id_u"];
-    $salary = $price . $selectedCurrency;
+$shortDescription = mysqli_real_escape_string($conn, $data['Short Description']);
+$fullDescription = mysqli_real_escape_string($conn, $data['Full Description']);
+$jobType = mysqli_real_escape_string($conn, $data['Job Type']);
+$jobStatus = mysqli_real_escape_string($conn, $data['Job Status']);
+$price = mysqli_real_escape_string($conn, $data['Price']);
+$selectedCurrency = mysqli_real_escape_string($conn, $data['Selected Currency']);
+$metaKeys = mysqli_real_escape_string($conn, $data['Meta Keys']);
+
+$location = mysqli_real_escape_string($conn, $data['Location']);
+$qualifications = mysqli_real_escape_string($conn, $data['Qualifications']);
+$domains = mysqli_real_escape_string($conn, $data['Domaines']);
+$idPoster = (int)$data["id_u"];
+$salary = $price . $selectedCurrency;
+
 
     if ($idJob !== null) {
         // If id_job is provided, update the existing record

@@ -11,7 +11,7 @@ if (isset($data['id'])) {
     $Id = (int) $data['id'];
 
     $sql = "
-    SELECT job_post.*, user.username AS poster_username, user.picture AS poster_picture
+    SELECT job_post.*, user.username AS username, user.picture AS poster_picture
     FROM job_post
     JOIN favoris ON job_post.id IN (favoris.id_object)
     JOIN user ON job_post.id_poster = user.id
