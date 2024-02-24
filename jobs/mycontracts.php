@@ -8,8 +8,8 @@ $rawBody = file_get_contents('php://input');
 $data = json_decode($rawBody, true);
 
 if (isset($data['id_user'])) {
-    $id=$data['id_user'];
-    $sql="SELECT 
+    $id = $data['id_user'];
+    $sql = "SELECT 
     job_post.*,
     COUNT(job_application.id) AS application_count,
     GROUP_CONCAT(user.id) AS user_ids,
@@ -25,12 +25,16 @@ GROUP BY job_post.id;
     $formations = [];
 
     while ($row = $result->fetch_assoc()) {
+        // Extraire la partie numérique et la devise du salaire
+        preg_match('/(\d+)([a-zA-Z]+)/', $row['salary'], $matches);
+        $row['salary'] = $matches[1];
+        $row['currency'] = isset($matches[2]) ? $matches[2] : '';
+
         $formations[] = $row;
-        
     }
 
     echo json_encode(array("job_applications" => $formations));
 } else {
     echo json_encode(array("job_applications" => false));
 }
-    
+?>
