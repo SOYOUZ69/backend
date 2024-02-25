@@ -4,58 +4,92 @@ include '../connection.php';
 // Access raw request body
 $rawBody = file_get_contents('php://input');
 
-// Decode JSON data (assuming the ID is sent as JSON)
 $data = json_decode($rawBody, true);
 
-if (isset($data['last_id'])&&isset($data['id_u'])) {
-    // Ensure lastId is an integer
-    $lastId = isset($data['last_id']) ? (int)$data['last_id'] : 0;
-$id_u=$data['id_u'];
+if (isset($data['last_id']) && isset($data['id_u'])) {
 
-    // Adjust the SQL query to filter by ID greater than the last ID
-    $sql = "SELECT
-    bp.id,
-    bp.bief_desc,
-    bp.full_desc,
-    bp.metakey,
-    u.username,
-    u.picture,
-    bp.state,
-    bp.date,
-    COUNT(DISTINCT c.id) AS comment_count,
-    COUNT(DISTINCT up.id) AS upvote_count,
-    CASE WHEN up.id_u = $id_u THEN 1 ELSE 0 END AS `like`
-FROM
-    blog_post bp
-LEFT JOIN
-    comment c ON bp.id = c.id_object AND c.object_type = 'blog'
-LEFT JOIN
-    upvotes up ON bp.id = up.id_o AND up.type = 'blog'
-JOIN
-    user u ON bp.id_poster = u.id
-GROUP BY
-    bp.id, bp.bief_desc, bp.full_desc, bp.metakey, u.username, u.picture, bp.state, bp.date
-ORDER BY
-    upvote_count DESC, bp.date DESC
-LIMIT
-    $lastId, 10
-";  // Limit the result to 10 rows
+    $lastId = isset($data['last_id']) ? (int)$data['last_id'] : 0;
+    $id_u = $data['id_u'];
+
+    $blogs = [];
+
+    $sql = "SELECT 
+        bp.id,
+        bp.bief_desc,
+        bp.full_desc,
+        bp.metakey,
+        u.username,
+        u.picture,
+        bp.state,
+        bp.date
+    FROM 
+        blog_post bp
+    JOIN 
+        user u ON bp.id_poster = u.id
+    WHERE 
+        bp.state = 1
+    LIMIT
+        $lastId, 10";
 
     $result = $conn->query($sql);
 
     if ($result) {
-        $blogs = [];
 
         while ($row = $result->fetch_assoc()) {
-            $blogs[] = $row;
-            $lastId = $row['id'];  // Update the last ID
-        }
+            $blog_id = $row['id'];
+            $row['comment_count'] = 0; // initialisation à 0
+            $row['upvote_count'] = 0; // initialisation à 0
+            $row['like'] = 0; // initialisation à 0
 
-        echo json_encode(array("blogs" => $blogs, "last_id" => $lastId));
-    } else {
-        echo json_encode(array("blogs" => false));
+            //comments
+            $sql2 = "SELECT 
+                COUNT(*) AS comment_count
+            FROM 
+                comment
+            WHERE 
+                id_object = $blog_id AND object_type = 'blog'";
+            $result2 = $conn->query($sql2);
+
+            if ($result2 && $result2->num_rows > 0) {
+                $row_result2 = $result2->fetch_assoc();
+                $row['comment_count'] = $row_result2['comment_count'];
+            }
+            $result2->free_result();
+            //upvotes
+            $sql3 = "SELECT 
+                COUNT(*) AS upvote_count
+            FROM 
+                upvotes
+            WHERE 
+                id_o = $blog_id AND type = 'blog'";
+            $result3 = $conn->query($sql3);
+
+            if ($result3 && $result3->num_rows > 0) {
+                $row_result3 = $result3->fetch_assoc();
+                $row['upvote_count'] = $row_result3['upvote_count'];
+            }
+            $result3->free_result();
+            //like
+            $sql4 = "SELECT 
+                id
+            FROM 
+                upvotes
+            WHERE 
+                id_o = $blog_id AND type = 'blog' and id_u = $id_u";
+            $result4 = $conn->query($sql4);
+
+            if ($result4 && $result4->num_rows > 0) {
+                $row['like'] = 1;
+            }
+            $result4->free_result();
+
+            $blogs[] = $row;
+            $lastId = $row['id'];
+        }
     }
+
+    echo json_encode(array("blogs" => $blogs, "last_id" => $lastId));
+
 } else {
     echo json_encode(array("blogs" => false, "erreur" => "demande incorrecte"));
 }
-?>
