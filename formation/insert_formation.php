@@ -1,7 +1,17 @@
 <?php
 include '../connection.php';
 
-if ($_POST["nom"]) {
+if (
+    isset($_POST["nom"]) &&
+    isset($_POST["description"]) &&
+    isset($_POST["link"]) &&
+    isset($_POST["price"]) &&
+    isset($_POST["date"]) &&
+    isset($_POST["company_url"]) &&
+    isset($_POST["metakey"]) &&
+    isset($_POST["id_poster"]) &&
+    isset($_POST["currency"])
+){
     $nom = $_POST["nom"];
     $description = $_POST["description"];
     $link = $_POST["link"];
@@ -10,6 +20,7 @@ if ($_POST["nom"]) {
     $company_url = $_POST["company_url"];
     $metakey = $_POST["metakey"];
     $id_poster = $_POST["id_poster"];
+    $currency = $_POST["currency"];
 
     $logo = "";
     if (!empty($_FILES['cover']['name'])) {
@@ -37,13 +48,13 @@ if ($_POST["nom"]) {
         }
     }
 
-    $sql = "INSERT INTO `formation`(`nom`, `description`, `cover`, `link`, `price`, `date`, `company_url`, `metakey`, `id_poster`,`state`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,0)";
+    $sql = "INSERT INTO `formation`(`nom`, `description`, `cover`, `link`, `price`,`currency`, `date`, `company_url`, `metakey`, `id_poster`,`state`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,0)";
     
   $stmt = $conn->prepare($sql);
     
     
     if ($stmt) {
-        $stmt->bind_param("ssssdsssi", $nom, $description, $logo, $link, $price, $date, $company_url, $metakey, $id_poster);
+        $stmt->bind_param("ssssdsssi", $nom, $description, $logo, $link, $price,$currency, $date, $company_url, $metakey, $id_poster);
         
         $result = $stmt->execute();
         
@@ -58,5 +69,5 @@ if ($_POST["nom"]) {
     } else {
         echo json_encode(array("success" => false, "error" => $conn->error));
     }
-}
+}else{ echo json_encode(array("success" => false,"erreur" => "attribut manquant"));}
 ?>
