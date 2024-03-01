@@ -4,10 +4,10 @@ $rawBody = file_get_contents('php://input');
 
 // Decode JSON data (assuming the ID is sent as JSON)
 $data = json_decode($rawBody, true);
-if (isset($data["job_id"], $data["id_u"], $data["state"]) && ($data["state"] == "upply" || $data["state"] == "unuply")) {
+if (isset($data["job_id"], $data["id_u"], $data["state"]) && ($data["state"] == "apply" || $data["state"] == "unapply")) {
     $id_u = $data["id_u"];
     $job_id = $data["job_id"];
-    if ($data["state"] == "upply") {
+    if ($data["state"] == "apply") {
         $sql = "INSERT INTO `job_application`(`job_id`, `id_u`, `date`) VALUES (?, ?, NOW())";
 
         $stmt = $conn->prepare($sql);

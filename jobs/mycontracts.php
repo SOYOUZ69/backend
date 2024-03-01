@@ -23,8 +23,9 @@ if (isset($data['id_user'])) {
     $result = $conn->query($sql);
 
     $formations = [];
-
+$x=0;
     while ($row = $result->fetch_assoc()) {
+        $x=$x+1;
         // Extract the numeric part and currency from the salary
         preg_match('/(\d+)([a-zA-Z]+)/', $row['salary'], $matches);
         $row['salary'] = $matches[1];
@@ -52,7 +53,7 @@ if (isset($data['id_user'])) {
         $formations[] = $row;
     }
 
-    echo json_encode(array("job_applications" => $formations));
+    echo json_encode(array("job_applications" => $formations ,"totale" => $x));
 } else {
     echo json_encode(array("job_applications" => false));
 }

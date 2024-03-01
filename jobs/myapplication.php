@@ -16,13 +16,13 @@ if (isset($data['id_user'])) {
     $result = $conn->query($sql);
 
     $formations = [];
-
+$x=0;
     while ($row = $result->fetch_assoc()) {
         $formations[] = $row;
-        
+        $x=$x+1;
     }
 
-    echo json_encode(array("job_applications" => $formations));
+    echo json_encode(array("job_applications" => $formations ,"totale" => $x));
 } else {
     echo json_encode(array("job_applications" => false));
 }
