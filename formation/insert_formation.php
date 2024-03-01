@@ -54,7 +54,7 @@ if (
     
     
     if ($stmt) {
-        $stmt->bind_param("ssssdsssi", $nom, $description, $logo, $link, $price,$currency, $date, $company_url, $metakey, $id_poster);
+        $stmt->bind_param("ssssdssssi", $nom, $description, $logo, $link, $price,$currency, $date, $company_url, $metakey, $id_poster);
         
         $result = $stmt->execute();
         
